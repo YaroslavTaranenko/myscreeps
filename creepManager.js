@@ -1,25 +1,48 @@
+
 const roleHarvester = require('./role.harvester');
 const roleBuilder = require('./role.builder');
 const roleUpgrader = require('./role.upgrader');
 
 const tools = require('./tools');
 
-module.exports = {
+const cm = {
+    spawnBalancedCreep: (energy, role)=>{
+        
+        let _this = this;
+        let bodyParts = Math.floor(energy / 200);
+        
+        let body = [];
+
+        for(let i = 0; i < bodyParts; i++){
+            body.push(WORK);
+        }
+        for(let i = 0; i < bodyParts; i++){
+            body.push(CARRY);
+        }
+        for(let i = 0; i < bodyParts; i++){
+            body.push(MOVE);
+        }
+        let newName = role + Memory.idx;
+
+        let resp = Game.spawns[Memory.spawnName].spawnCreep(body, newName, {memory:{role: role}});
+        if(resp == OK){
+            Memory.idx++;
+        }
+        return resp;
+    },
     spawnRequired: ()=>{
+        let spawn = Game.spawns[Memory.spawnName];
         if(Memory.harvsCnt < Memory.harvsMax){
-            let newName = 'Harvy' + Memory.idx;
-            if(Game.spawns[Memory.spawnName].spawnCreep([MOVE, CARRY, WORK], newName, {memory: {role: tools.roles.harvester}}) == OK){
-                Memory.idx++;
+            if((cm.spawnBalancedCreep(spawn.room.energyCapacityAvailable, tools.roles.harvester) == ERR_NOT_ENOUGH_ENERGY) &&(Memory.harvsCnt == 0)){
+                cm.spawnBalancedCreep(200, tools.roles.harvester);
             }
         }else if(Memory.upgradersCnt < Memory.upgradersMax){
-            let newName = 'Upgrader' + Memory.idx;
-            if(Game.spawns[Memory.spawnName].spawnCreep([MOVE, CARRY, WORK], newName, {memory: {role: tools.roles.upgrader}}) == OK){
-                Memory.idx++;
+            if(cm.spawnBalancedCreep(spawn.room.energyCapacityAvailable, tools.roles.upgrader) == OK){
+                
             }
         }else if(Memory.buildersCnt < Memory.buildersMax){
-            let newName = 'Builder' + Memory.idx;
-            if(Game.spawns[Memory.spawnName].spawnCreep([MOVE, CARRY, WORK], newName, {memory: {role: tools.roles.builder}}) == OK){
-                Memory.idx++;
+            if(cm.spawnBalancedCreep(spawn.room.energyCapacityAvailable, tools.roles.builder) == OK){
+                
             }
         }
 
@@ -49,3 +72,6 @@ module.exports = {
         }
     }
 }
+
+
+module.exports = cm;

@@ -1,8 +1,8 @@
 module.exports = {
     roles: {
-        harvester: 1,
-        upgrader: 2,
-        builder: 3,
+        harvester: 'harvester',
+        upgrader: 'upgrader',
+        builder: 'builder',
     },
     resetSettings: ()=>{
         if(!Memory.resetSettings) return;
