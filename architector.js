@@ -19,27 +19,41 @@ const arch = {
         spawn.room.createConstructionSite(pos.x+1, pos.y - 1, STRUCTURE_EXTENSION);
         spawn.room.createConstructionSite(pos.x+1, pos.y + 1, STRUCTURE_EXTENSION);
 
-        spawn.room.createConstructionSite(pos.x-1, pos.y, STRUCTURE_EXTENSION);
-        spawn.room.createConstructionSite(pos.x, pos.y-1, STRUCTURE_EXTENSION);
-        spawn.room.createConstructionSite(pos.x, pos.y+1, STRUCTURE_EXTENSION);
-        spawn.room.createConstructionSite(pos.x+1, pos.y-2, STRUCTURE_EXTENSION);
-        spawn.room.createConstructionSite(pos.x+1, pos.y+2, STRUCTURE_EXTENSION);
-        spawn.room.createConstructionSite(pos.x+2, pos.y-1, STRUCTURE_EXTENSION);
-        spawn.room.createConstructionSite(pos.x+2, pos.y+1, STRUCTURE_EXTENSION);
-        spawn.room.createConstructionSite(pos.x+3, pos.y, STRUCTURE_EXTENSION);            
+        spawn.room.createConstructionSite(pos.x-1, pos.y, STRUCTURE_ROAD);
+        spawn.room.createConstructionSite(pos.x, pos.y-1, STRUCTURE_ROAD);
+        spawn.room.createConstructionSite(pos.x, pos.y+1, STRUCTURE_ROAD);
+        spawn.room.createConstructionSite(pos.x+1, pos.y-2, STRUCTURE_ROAD);
+        spawn.room.createConstructionSite(pos.x+1, pos.y+2, STRUCTURE_ROAD);
+        spawn.room.createConstructionSite(pos.x+2, pos.y-1, STRUCTURE_ROAD);
+        spawn.room.createConstructionSite(pos.x+2, pos.y+1, STRUCTURE_ROAD);
+        spawn.room.createConstructionSite(pos.x+3, pos.y, STRUCTURE_ROAD);            
         
     },
     buildExtensions: () => {
+        
+        let spawn = Game.spawns[Memory.spawnName];
+        let pos = {x: spawn.pos.x - 4, y: spawn.pos.y};
+        // console.log(pos.x, pos.y);
+        // console.log(spawn.room.createConstructionSite(pos.x-1, pos.y, STRUCTURE_ROAD));
+        // console.log(spawn.room.createConstructionSite(pos.x, pos.y-1, STRUCTURE_ROAD));
+        // console.log(spawn.room.createConstructionSite(pos.x, pos.y+1, STRUCTURE_ROAD));
+        // console.log(spawn.room.createConstructionSite(pos.x+1, pos.y-2, STRUCTURE_ROAD));
+        // console.log(spawn.room.createConstructionSite(pos.x+1, pos.y+2, STRUCTURE_ROAD));
+        // console.log(spawn.room.createConstructionSite(pos.x+2, pos.y-1, STRUCTURE_ROAD));
+        // console.log(spawn.room.createConstructionSite(pos.x+2, pos.y+1, STRUCTURE_ROAD));
+        // console.log(spawn.room.createConstructionSite(pos.x+3, pos.y, STRUCTURE_ROAD)); 
+
+        arch.addExtensions({x: spawn.pos.x - 4, y: spawn.pos.y});
         if((arch.constructionExtensions.length + arch.extensions.length) < ((arch.controlLvl - 1)*5)){
             let spawn = Game.spawns[Memory.spawnName];
             if((arch.constructionExtensions.length + arch.extensions.length) == 0){
-                arch.addExtensions({x: spawn.pos.x - 5, y: spawn.y});
+                arch.addExtensions({x: spawn.pos.x - 5, y: spawn.pos.y});
             }else if((arch.constructionExtensions.length + arch.extensions.length) == 5){
-                arch.addExtensions({x: spawn.pos.x + 1, y: spawn.y});
+                arch.addExtensions({x: spawn.pos.x + 1, y: spawn.pos.y});
             }else if((arch.constructionExtensions.length + arch.extensions.length) == 10){
-                arch.addExtensions({x: spawn.pos.x - 7, y: spawn.y-3});
+                arch.addExtensions({x: spawn.pos.x - 7, y: spawn.pos.y-3});
             }else if((arch.constructionExtensions.length + arch.extensions.length) == 15){
-                arch.addExtensions({x: spawn.pos.x + 2, y: spawn.y+3});
+                arch.addExtensions({x: spawn.pos.x + 2, y: spawn.pos.y+3});
             }
         }
     },
@@ -58,7 +72,11 @@ const arch = {
         arch.controlLvl = Game.spawns[Memory.spawnName].room.controller.level;
         arch.roomEnergyCapacity = Game.spawns[Memory.spawnName].room.energyCapacityAvailable;
 
-        if(arch.constructingStructures == 0){
+        if(arch.constructingStructures.length > 0){
+            console.log('stupid if: ', arch.constructingStructures);
+            Memory.buildersMax = 5;
+        }else if(arch.constructingStructures.length === 0){
+            console.log('stupid second if: ' + arch.constructingStructures.length);
             Memory.buildersMax = 0;
         }
 
