@@ -27,6 +27,10 @@ var roleBuilder = {
                 });
                 if(creep.repair(roads[0]) == ERR_NOT_IN_RANGE){
                     creep.moveTo(roads[0], {visualizePathStyle:{stroke: '#fff'}});
+                }else{
+                    if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
+                    }
                 }
             }
         }else{

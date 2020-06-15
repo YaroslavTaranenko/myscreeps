@@ -4,6 +4,7 @@ const roleBuilder = require('./role.builder');
 const roleUpgrader = require('./role.upgrader');
 
 const tools = require('./tools');
+const roleRepairer = require('./role.repairer');
 
 const cm = {
     spawnBalancedCreep: (energy, role)=>{
@@ -44,6 +45,10 @@ const cm = {
             if(cm.spawnBalancedCreep(spawn.room.energyCapacityAvailable, tools.roles.builder) == OK){
                 
             }
+        }else if(Memory.repairersCnt < Memory.repairersMax){
+            if(cm.spawnBalancedCreep(spawn.room.energyCapacityAvailable, tools.roles.repairer) == OK){
+                
+            }
         }
 
         if(Game.spawns[Memory.spawnName].spawning) { 
@@ -68,6 +73,9 @@ const cm = {
             }
             if(creep.memory.role == tools.roles.builder){
                 roleBuilder.run(creep);
+            }
+            if(creep.memory.role == tools.roles.repairer){
+                roleRepairer.run(creep);
             }
         }
     }

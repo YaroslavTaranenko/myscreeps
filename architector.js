@@ -47,13 +47,13 @@ const arch = {
         if((arch.constructionExtensions.length + arch.extensions.length) < ((arch.controlLvl - 1)*5)){
             let spawn = Game.spawns[Memory.spawnName];
             if((arch.constructionExtensions.length + arch.extensions.length) == 0){
-                arch.addExtensions({x: spawn.pos.x - 5, y: spawn.pos.y});
+                arch.addExtensions({x: spawn.pos.x - 4, y: spawn.pos.y});
             }else if((arch.constructionExtensions.length + arch.extensions.length) == 5){
-                arch.addExtensions({x: spawn.pos.x + 1, y: spawn.pos.y});
+                arch.addExtensions({x: spawn.pos.x + 2, y: spawn.pos.y});
             }else if((arch.constructionExtensions.length + arch.extensions.length) == 10){
-                arch.addExtensions({x: spawn.pos.x - 7, y: spawn.pos.y-3});
+                arch.addExtensions({x: spawn.pos.x - 1, y: spawn.pos.y-3});
             }else if((arch.constructionExtensions.length + arch.extensions.length) == 15){
-                arch.addExtensions({x: spawn.pos.x + 2, y: spawn.pos.y+3});
+                arch.addExtensions({x: spawn.pos.x - 1, y: spawn.pos.y+3});
             }
         }
     },
@@ -63,6 +63,9 @@ const arch = {
         let spawn = Game.spawns[Memory.spawnName];
         arch.structures = spawn.room.find(FIND_STRUCTURES);
         arch.constructingStructures = spawn.room.find(FIND_CONSTRUCTION_SITES);
+        arch.repairables = _.filter(arch.structures, (s)=>{
+            return s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL
+        })
         arch.extensions = _.filter(arch.structures, (structure)=>{
             return structure.structureType == STRUCTURE_EXTENSION
         });
@@ -73,15 +76,18 @@ const arch = {
         arch.roomEnergyCapacity = Game.spawns[Memory.spawnName].room.energyCapacityAvailable;
 
         if(arch.constructingStructures.length > 0){
-            console.log('stupid if: ', arch.constructingStructures);
+            // console.log('stupid if: ', arch.constructingStructures);
             Memory.buildersMax = 5;
         }else if(arch.constructingStructures.length === 0){
-            console.log('stupid second if: ' + arch.constructingStructures.length);
+            // console.log('stupid second if: ' + arch.constructingStructures.length);
             Memory.buildersMax = 0;
         }
-
-        console.log(`structures: ${arch.structures.length}; extensions: ${arch.extensions.length}/${(arch.controlLvl - 1) * 5};`);
-        console.log(`Energy cap: ${arch.roomEnergyCapacity}; constructing structures: ${arch.constructingStructures.length}; constructing extensions: ${arch.constructionExtensions.length}/${(arch.controlLvl - 1) * 5}; `);
+        let enRep = `Energy : ${Game.spawns[Memory.spawnName].room.energyAvailable}/${arch.roomEnergyCapacity};`;
+        enRep += `structures: ${arch.structures.length}; extensions: ${arch.extensions.length}/${(arch.controlLvl - 1) * 5};`;
+        console.log(enRep);
+        let rep = ` constructing structures: ${arch.constructingStructures.length}; constructing extensions: ${arch.constructionExtensions.length}/${(arch.controlLvl - 1) * 5}; `;
+        rep += `repairables: ${arch.repairables.length}`;
+        console.log(rep);
     },
     run: ()=>{
         arch.countBuildings();

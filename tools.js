@@ -3,6 +3,7 @@ module.exports = {
         harvester: 'harvester',
         upgrader: 'upgrader',
         builder: 'builder',
+        repairer: 'repairer',
     },
     resetSettings: ()=>{
         if(!Memory.resetSettings) return;
@@ -29,9 +30,11 @@ module.exports = {
         Memory.harvsCnt = _.filter(Game.creeps, (creep)=>creep.memory.role == module.exports.roles.harvester).length;
         Memory.upgradersCnt = _.filter(Game.creeps, (creep)=>creep.memory.role == module.exports.roles.upgrader).length;
         Memory.buildersCnt = _.filter(Game.creeps, (creep)=>creep.memory.role == module.exports.roles.builder).length;
+        Memory.repairersCnt = _.filter(Game.creeps, (creep)=>creep.memory.role == module.exports.roles.repairer).length;
     },
     report: ()=>{
         let rep = `harvs: ${Memory.harvsCnt}/${Memory.harvsMax}; upgs: ${Memory.upgradersCnt}/${Memory.upgradersMax}; builders: ${Memory.buildersCnt}/${Memory.buildersMax}; `;
+        rep += `Repairers: ${Memory.repairersCnt}/${Memory.repairersMax}; `;
         rep += `SpawnFreeCap: ${Game.spawns[Memory.spawnName].store.getFreeCapacity('energy')}`;
         console.log(Game.time, rep);
     }
