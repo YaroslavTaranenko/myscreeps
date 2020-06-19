@@ -49,11 +49,13 @@ const arch = {
             if((arch.constructionExtensions.length + arch.extensions.length) == 0){
                 arch.addExtensions({x: spawn.pos.x - 4, y: spawn.pos.y});
             }else if((arch.constructionExtensions.length + arch.extensions.length) == 5){
-                arch.addExtensions({x: spawn.pos.x + 2, y: spawn.pos.y});
+                arch.addExtensions({x: spawn.pos.x + - 1, y: spawn.pos.y - 3});
             }else if((arch.constructionExtensions.length + arch.extensions.length) == 10){
-                arch.addExtensions({x: spawn.pos.x - 1, y: spawn.pos.y-3});
+                arch.addExtensions({x: spawn.pos.x + 2, y: spawn.pos.y});
             }else if((arch.constructionExtensions.length + arch.extensions.length) == 15){
                 arch.addExtensions({x: spawn.pos.x - 1, y: spawn.pos.y+3});
+            }else if((arch.constructionExtensions.length + arch.extensions.length) == 20){
+                arch.addExtensions({x: spawn.pos.x - 4, y: spawn.pos.y+5});
             }
         }
     },

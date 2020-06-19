@@ -21,7 +21,7 @@ module.exports = {
             let targets = creep.room.find(FIND_STRUCTURES, {filter: (s)=>s.structureType != STRUCTURE_WALL && s.hits < s.hitsMax});
             // console.log(targets);
             if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE){
-                creep.moveTo(targets[0], {visualizePathStyle:{stroke: '#fff'}});
+                creep.moveTo(targets[0], {visualizePathStyle:{stroke: '#fffa00'}});
             }
         }else{
             var sources = creep.room.find(FIND_SOURCES);
